@@ -1,0 +1,2851 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > computer 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "enum": [
+        "screenshot",
+        "click",
+        "drag",
+        "type",
+        "key",
+        "scroll",
+        "wait",
+      ],
+      "type": "string",
+    },
+    "backendNodeId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+    "clickCount": {
+      "maximum": 3,
+      "minimum": 1,
+      "type": "integer",
+    },
+    "clip": {
+      "additionalProperties": false,
+      "properties": {
+        "height": {
+          "exclusiveMinimum": 0,
+          "type": "number",
+        },
+        "width": {
+          "exclusiveMinimum": 0,
+          "type": "number",
+        },
+        "x": {
+          "minimum": 0,
+          "type": "number",
+        },
+        "y": {
+          "minimum": 0,
+          "type": "number",
+        },
+      },
+      "required": [
+        "x",
+        "y",
+        "width",
+        "height",
+      ],
+      "type": "object",
+    },
+    "coordinate": {
+      "items": {
+        "minimum": 0,
+        "type": "number",
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "type": "array",
+    },
+    "direction": {
+      "enum": [
+        "up",
+        "down",
+        "left",
+        "right",
+      ],
+      "type": "string",
+    },
+    "distance": {
+      "exclusiveMinimum": 0,
+      "type": "number",
+    },
+    "format": {
+      "enum": [
+        "png",
+        "jpeg",
+      ],
+      "type": "string",
+    },
+    "frameId": {
+      "maxLength": 256,
+      "minLength": 1,
+      "type": "string",
+    },
+    "holdMs": {
+      "maximum": 1000,
+      "minimum": 0,
+      "type": "integer",
+    },
+    "key": {
+      "minLength": 1,
+      "type": "string",
+    },
+    "milliseconds": {
+      "maximum": 10000,
+      "minimum": 0,
+      "type": "integer",
+    },
+    "modifiers": {
+      "items": {
+        "enum": [
+          "Alt",
+          "Control",
+          "Meta",
+          "Shift",
+        ],
+        "type": "string",
+      },
+      "maxItems": 4,
+      "type": "array",
+    },
+    "overwrite": {
+      "type": "boolean",
+    },
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+    "quality": {
+      "maximum": 100,
+      "minimum": 1,
+      "type": "integer",
+    },
+    "savePath": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "type": "string",
+    },
+    "scale": {
+      "maximum": 1,
+      "minimum": 0.1,
+      "type": "number",
+    },
+    "tabId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+    "text": {
+      "maxLength": 65536,
+      "type": "string",
+    },
+    "toCoordinate": {
+      "items": {
+        "minimum": 0,
+        "type": "number",
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "type": "array",
+    },
+  },
+  "required": [
+    "tabId",
+    "action",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > computer contract 1`] = `
+{
+  "description": "Capture pixels or send mouse, keyboard, scroll and wait actions. Coordinates are viewport CSS pixels, not scaled image pixels; re-capture after scroll or layout changes. action=screenshot: PNG or format=jpeg (quality=1..100), scale=0.1..1, optional viewport-relative clip. savePath saves under MIE_SCREENSHOT_DIR (default cwd/.e2e-test/screenshots) as .png/.jpg/.jpeg; overwrite=true replaces an existing file. The result includes screenshotViewport and coordinateMapping: viewportX=origin.x+imageX*cssPixelsPerImagePixel.x (same for Y). action=click: exactly one of coordinate [x, y] or backendNodeId (a [ref_N] from read_page/find); clickCount=1..3; check the returned hit. Hit attributes omit value, summarize data URLs as MIME/length without payload, and cap values at 512 UTF-16 code units, names at 128, count at 32 and serialized attributes JSON at 4096. attributesTruncated marks summaries/truncation; attributesOmitted counts budget-omitted pairs. Other attribute data is not generally redacted. action=drag: coordinate to toCoordinate. action=type: inserts text at the current selection; backendNodeId focuses an editable target first, otherwise the focused editable element is used (waits up to 250ms, errors if none) and the result names it in target. Use form_input to replace or clear. Canvas-drawn inputs without a DOM editable are not type targets: click to focus, then try individual key actions and verify the result. action=key: key plus optional modifiers and holdMs (0-1000, default 0). Each call presses and releases the key on the same tab. Holding does not generate repeated keydown events. action=scroll: direction + distance (px) at coordinate (default viewport center); nested scroll containers need their own coordinate. action=wait: milliseconds (max 10000). frameId applies to backendNodeId click/type only and needs a ref issued for that frame.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "action": {
+        "enum": [
+          "screenshot",
+          "click",
+          "drag",
+          "type",
+          "key",
+          "scroll",
+          "wait",
+        ],
+        "type": "string",
+      },
+      "backendNodeId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+      "clickCount": {
+        "maximum": 3,
+        "minimum": 1,
+        "type": "integer",
+      },
+      "clip": {
+        "additionalProperties": false,
+        "properties": {
+          "height": {
+            "exclusiveMinimum": 0,
+            "type": "number",
+          },
+          "width": {
+            "exclusiveMinimum": 0,
+            "type": "number",
+          },
+          "x": {
+            "minimum": 0,
+            "type": "number",
+          },
+          "y": {
+            "minimum": 0,
+            "type": "number",
+          },
+        },
+        "required": [
+          "x",
+          "y",
+          "width",
+          "height",
+        ],
+        "type": "object",
+      },
+      "coordinate": {
+        "items": {
+          "minimum": 0,
+          "type": "number",
+        },
+        "maxItems": 2,
+        "minItems": 2,
+        "type": "array",
+      },
+      "direction": {
+        "enum": [
+          "up",
+          "down",
+          "left",
+          "right",
+        ],
+        "type": "string",
+      },
+      "distance": {
+        "exclusiveMinimum": 0,
+        "type": "number",
+      },
+      "format": {
+        "enum": [
+          "png",
+          "jpeg",
+        ],
+        "type": "string",
+      },
+      "frameId": {
+        "maxLength": 256,
+        "minLength": 1,
+        "type": "string",
+      },
+      "holdMs": {
+        "maximum": 1000,
+        "minimum": 0,
+        "type": "integer",
+      },
+      "key": {
+        "minLength": 1,
+        "type": "string",
+      },
+      "milliseconds": {
+        "maximum": 10000,
+        "minimum": 0,
+        "type": "integer",
+      },
+      "modifiers": {
+        "items": {
+          "enum": [
+            "Alt",
+            "Control",
+            "Meta",
+            "Shift",
+          ],
+          "type": "string",
+        },
+        "maxItems": 4,
+        "type": "array",
+      },
+      "overwrite": {
+        "type": "boolean",
+      },
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+      "quality": {
+        "maximum": 100,
+        "minimum": 1,
+        "type": "integer",
+      },
+      "savePath": {
+        "maxLength": 4096,
+        "minLength": 1,
+        "type": "string",
+      },
+      "scale": {
+        "maximum": 1,
+        "minimum": 0.1,
+        "type": "number",
+      },
+      "tabId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+      "text": {
+        "maxLength": 65536,
+        "type": "string",
+      },
+      "toCoordinate": {
+        "items": {
+          "minimum": 0,
+          "type": "number",
+        },
+        "maxItems": 2,
+        "minItems": 2,
+        "type": "array",
+      },
+    },
+    "required": [
+      "tabId",
+      "action",
+    ],
+    "type": "object",
+  },
+  "name": "computer",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > cookies_list 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "domain": {
+      "maxLength": 253,
+      "minLength": 1,
+      "pattern": "^\\.?[a-z0-9.-]+$",
+      "type": "string",
+    },
+    "name": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "type": "string",
+    },
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+    "url": {
+      "format": "uri",
+      "type": "string",
+    },
+  },
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > cookies_list contract 1`] = `
+{
+  "description": "Read-only cookie listing for this profile. url lists cookies Chrome would send to that http(s) URL (parent-domain cookies included); domain lists cookies whose domain equals or is a subdomain of it. Optional exact name filter. Returns name, domain, hostOnly, path, expires (ISO, null for session), httpOnly, secure, sameSite, valueLength and valueSha256 (first 12 hex). Values are never returned; compare a known candidate by its sha256 prefix. At most 200 cookies.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "domain": {
+        "maxLength": 253,
+        "minLength": 1,
+        "pattern": "^\\.?[a-z0-9.-]+$",
+        "type": "string",
+      },
+      "name": {
+        "maxLength": 4096,
+        "minLength": 1,
+        "type": "string",
+      },
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+      "url": {
+        "format": "uri",
+        "type": "string",
+      },
+    },
+    "type": "object",
+  },
+  "name": "cookies_list",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > find 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "exact": {
+      "default": false,
+      "type": "boolean",
+    },
+    "frameId": {
+      "maxLength": 256,
+      "minLength": 1,
+      "type": "string",
+    },
+    "includeBox": {
+      "type": "boolean",
+    },
+    "name": {
+      "maxLength": 200,
+      "type": "string",
+    },
+    "near": {
+      "maxLength": 200,
+      "minLength": 1,
+      "type": "string",
+    },
+    "nth": {
+      "maximum": 100000,
+      "minimum": 0,
+      "type": "integer",
+    },
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+    "query": {
+      "maxLength": 200,
+      "minLength": 1,
+      "type": "string",
+    },
+    "role": {
+      "maxLength": 100,
+      "minLength": 1,
+      "type": "string",
+    },
+    "selector": {
+      "maxLength": 500,
+      "minLength": 1,
+      "type": "string",
+    },
+    "tabId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+    "timeoutMs": {
+      "maximum": 20000,
+      "minimum": 0,
+      "type": "integer",
+    },
+    "within": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+  },
+  "required": [
+    "tabId",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > find contract 1`] = `
+{
+  "description": "Find up to 20 elements in the accessibility tree; all provided filters must match. query: case-insensitive substring match on role, name or value. role: whole role, case-insensitive. name: whitespace-collapsed, case-insensitive substring, or exact=true for case-sensitive whole name (a blank name requires exact=true). selector: main-frame CSS selector such as [data-testid="x"]. Provide at least one of them. Returns refs in document order. within limits to descendants of a ref. near ranks by tree distance to matching text. nth picks a zero-based match before the cap. includeBox=true (main frame) appends box=[x,y,width,height] in viewport CSS pixels to tell same-named elements apart. timeoutMs=0..20000 retries while nothing matches and returns matched/timedOut/elapsedMs. frameId searches a frame and returns refs valid only with that frameId. AX-disabled matches append disabled=true; absence does not guarantee actionability. This is a snapshot, not a wait for enabled state. Not natural language understanding.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "exact": {
+        "default": false,
+        "type": "boolean",
+      },
+      "frameId": {
+        "maxLength": 256,
+        "minLength": 1,
+        "type": "string",
+      },
+      "includeBox": {
+        "type": "boolean",
+      },
+      "name": {
+        "maxLength": 200,
+        "type": "string",
+      },
+      "near": {
+        "maxLength": 200,
+        "minLength": 1,
+        "type": "string",
+      },
+      "nth": {
+        "maximum": 100000,
+        "minimum": 0,
+        "type": "integer",
+      },
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+      "query": {
+        "maxLength": 200,
+        "minLength": 1,
+        "type": "string",
+      },
+      "role": {
+        "maxLength": 100,
+        "minLength": 1,
+        "type": "string",
+      },
+      "selector": {
+        "maxLength": 500,
+        "minLength": 1,
+        "type": "string",
+      },
+      "tabId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+      "timeoutMs": {
+        "maximum": 20000,
+        "minimum": 0,
+        "type": "integer",
+      },
+      "within": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+    },
+    "required": [
+      "tabId",
+    ],
+    "type": "object",
+  },
+  "name": "find",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > form_input 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "backendNodeId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+    "clear": {
+      "const": true,
+      "type": "boolean",
+    },
+    "frameId": {
+      "maxLength": 256,
+      "minLength": 1,
+      "type": "string",
+    },
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+    "tabId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+    "value": {
+      "anyOf": [
+        {
+          "maxLength": 65536,
+          "type": "string",
+        },
+        {
+          "type": "boolean",
+        },
+        {
+          "type": "number",
+        },
+      ],
+    },
+  },
+  "required": [
+    "tabId",
+    "backendNodeId",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > form_input contract 1`] = `
+{
+  "description": "Set an input, textarea, select or contenteditable value by node ref. clear=true empties it (same as value=""). Uses native input/textarea setters and input/change events for controlled forms. Credential and verification fields are rejected. Recognized public token counts, token names and saved API key IDs are supported in matching native controls. Results return checked/matched status without page values or page exception text. With frameId, backendNodeId must be an issued read_page/find ref from that frame, not a native CDP node id.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "backendNodeId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+      "clear": {
+        "const": true,
+        "type": "boolean",
+      },
+      "frameId": {
+        "maxLength": 256,
+        "minLength": 1,
+        "type": "string",
+      },
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+      "tabId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+      "value": {
+        "anyOf": [
+          {
+            "maxLength": 65536,
+            "type": "string",
+          },
+          {
+            "type": "boolean",
+          },
+          {
+            "type": "number",
+          },
+        ],
+      },
+    },
+    "required": [
+      "tabId",
+      "backendNodeId",
+    ],
+    "type": "object",
+  },
+  "name": "form_input",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > get_page_text 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "includeFrames": {
+      "default": false,
+      "type": "boolean",
+    },
+    "maxChars": {
+      "default": 50000,
+      "maximum": 200000,
+      "minimum": 1000,
+      "type": "integer",
+    },
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+    "tabId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+  },
+  "required": [
+    "tabId",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > get_page_text contract 1`] = `
+{
+  "description": "Extract main-frame body text with title, URL, and source. includeFrames=true returns JSON text with up to 32 main/iframe/OOPIF records, frame IDs, parent IDs, text or per-frame errors. maxChars bounds the entire output; omitted/truncated mark partial output.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "includeFrames": {
+        "default": false,
+        "type": "boolean",
+      },
+      "maxChars": {
+        "default": 50000,
+        "maximum": 200000,
+        "minimum": 1000,
+        "type": "integer",
+      },
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+      "tabId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+    },
+    "required": [
+      "tabId",
+    ],
+    "type": "object",
+  },
+  "name": "get_page_text",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > graphics_diagnostics 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "frameId": {
+      "maxLength": 256,
+      "minLength": 1,
+      "type": "string",
+    },
+    "maxCanvases": {
+      "default": 10,
+      "maximum": 20,
+      "minimum": 1,
+      "type": "integer",
+    },
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+    "tabId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+  },
+  "required": [
+    "tabId",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > graphics_diagnostics contract 1`] = `
+{
+  "description": "Read bounded canvas layout metadata in a managed tab's selected frame, including opaque/OOPIF frames and open shadow roots. No AX node ref is needed. Returns buffer dimensions, CSS rectangles, CSS visibility and intersection with that frame's viewport. Does not check occlusion or ancestor-frame visibility. Never calls getContext, reads pixels, mutates DOM or refreshes the page; WebGL context-loss state is unknown without an existing context reference. Fixed numeric/boolean/enumerated output only: no URLs, text, attributes, form values, credentials or arbitrary objects. Layout reads can force layout. Scans at most 2000 elements; maxCanvases defaults to 10 (1..20). truncated means a scan/output limit was reached.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "frameId": {
+        "maxLength": 256,
+        "minLength": 1,
+        "type": "string",
+      },
+      "maxCanvases": {
+        "default": 10,
+        "maximum": 20,
+        "minimum": 1,
+        "type": "integer",
+      },
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+      "tabId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+    },
+    "required": [
+      "tabId",
+    ],
+    "type": "object",
+  },
+  "name": "graphics_diagnostics",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > hover 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "backendNodeId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+    "frameId": {
+      "maxLength": 256,
+      "minLength": 1,
+      "type": "string",
+    },
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+    "tabId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+  },
+  "required": [
+    "tabId",
+    "backendNodeId",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > hover contract 1`] = `
+{
+  "description": "Move the real mouse to an element ref without clicking. Supports frameId with its issued ref. Scrolls into view; rejects obscured targets.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "backendNodeId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+      "frameId": {
+        "maxLength": 256,
+        "minLength": 1,
+        "type": "string",
+      },
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+      "tabId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+    },
+    "required": [
+      "tabId",
+      "backendNodeId",
+    ],
+    "type": "object",
+  },
+  "name": "hover",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > inspect_element 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "backendNodeId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+    "frameId": {
+      "maxLength": 256,
+      "minLength": 1,
+      "type": "string",
+    },
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+    "tabId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+  },
+  "required": [
+    "tabId",
+    "backendNodeId",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > inspect_element contract 1`] = `
+{
+  "description": "Read element ref metadata without clicking or scrolling: tag, role, text, value, safe attrs, rect, computed styles and client/scroll sizes. Sensitive controls are redacted. Optional frameId requires its issued ref.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "backendNodeId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+      "frameId": {
+        "maxLength": 256,
+        "minLength": 1,
+        "type": "string",
+      },
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+      "tabId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+    },
+    "required": [
+      "tabId",
+      "backendNodeId",
+    ],
+    "type": "object",
+  },
+  "name": "inspect_element",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > javascript_exec 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "allowUnsafe": {
+      "const": true,
+      "type": "boolean",
+    },
+    "code": {
+      "maxLength": 65536,
+      "minLength": 1,
+      "type": "string",
+    },
+    "expectedOrigin": {
+      "format": "uri",
+      "type": "string",
+    },
+    "maxChars": {
+      "default": 20000,
+      "maximum": 50000,
+      "minimum": 1,
+      "type": "integer",
+    },
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+    "tabId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+    "timeoutMs": {
+      "default": 5000,
+      "maximum": 15000,
+      "minimum": 1,
+      "type": "integer",
+    },
+    "untilTruthyMs": {
+      "maximum": 300000,
+      "minimum": 1,
+      "type": "integer",
+    },
+  },
+  "required": [
+    "tabId",
+    "expectedOrigin",
+    "allowUnsafe",
+    "code",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > javascript_exec contract 1`] = `
+{
+  "description": "Execute code as an async function body in the managed tab main document's MAIN world. Use return to produce JSON data. Requires allowUnsafe=true and the live expectedOrigin (HTTP/S). Can mutate pages, install hooks and access session data; output is NOT redacted. No automatic retry or rollback. timeoutMs defaults to 5000ms (1..15000); it bounds waiting, not background side effects. SCRIPT_TIMEOUT includes effectiveTimeoutMs and elapsedMs for the failed run, including CDP attachment/waiting. untilTruthyMs (max 300000) re-runs code every 500ms until it returns a truthy value and adds matched/timedOut/elapsedMs; timeoutMs then bounds each run. maxChars rejects oversized JSON output. OUTPUT_TOO_LARGE includes effectiveMaxChars and actualSerializedChars in UTF-16 code units (including JSON syntax), without an output excerpt. Return selected fields or smaller pages; the script has already run and side effects are not rolled back. SCRIPT_FAILED includes bounded name/message/stack JSON with truncated/extractionFailed flags (not redacted). Restore installed hooks yourself.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "allowUnsafe": {
+        "const": true,
+        "type": "boolean",
+      },
+      "code": {
+        "maxLength": 65536,
+        "minLength": 1,
+        "type": "string",
+      },
+      "expectedOrigin": {
+        "format": "uri",
+        "type": "string",
+      },
+      "maxChars": {
+        "default": 20000,
+        "maximum": 50000,
+        "minimum": 1,
+        "type": "integer",
+      },
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+      "tabId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+      "timeoutMs": {
+        "default": 5000,
+        "maximum": 15000,
+        "minimum": 1,
+        "type": "integer",
+      },
+      "untilTruthyMs": {
+        "maximum": 300000,
+        "minimum": 1,
+        "type": "integer",
+      },
+    },
+    "required": [
+      "tabId",
+      "expectedOrigin",
+      "allowUnsafe",
+      "code",
+    ],
+    "type": "object",
+  },
+  "name": "javascript_exec",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > navigate 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "captureConsole": {
+      "type": "boolean",
+    },
+    "captureNetwork": {
+      "type": "boolean",
+    },
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+    "tabId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+    "url": {
+      "format": "uri",
+      "type": "string",
+    },
+    "waitUntil": {
+      "default": "load",
+      "enum": [
+        "load",
+        "domcontentloaded",
+      ],
+      "type": "string",
+    },
+  },
+  "required": [
+    "tabId",
+    "url",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > navigate contract 1`] = `
+{
+  "description": "Navigate and wait for lifecycle. captureNetwork/captureConsole enable capture BEFORE navigation.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "captureConsole": {
+        "type": "boolean",
+      },
+      "captureNetwork": {
+        "type": "boolean",
+      },
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+      "tabId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+      "url": {
+        "format": "uri",
+        "type": "string",
+      },
+      "waitUntil": {
+        "default": "load",
+        "enum": [
+          "load",
+          "domcontentloaded",
+        ],
+        "type": "string",
+      },
+    },
+    "required": [
+      "tabId",
+      "url",
+    ],
+    "type": "object",
+  },
+  "name": "navigate",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > observation_history 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "enum": [
+        "status",
+        "configure",
+        "read",
+        "clear",
+      ],
+      "type": "string",
+    },
+    "beforeId": {
+      "format": "uuid",
+      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+      "type": "string",
+    },
+    "captureId": {
+      "format": "uuid",
+      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+      "type": "string",
+    },
+    "enabled": {
+      "type": "boolean",
+    },
+    "kind": {
+      "enum": [
+        "console",
+        "network",
+      ],
+      "type": "string",
+    },
+    "limit": {
+      "maximum": 200,
+      "minimum": 1,
+      "type": "integer",
+    },
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+    "tabId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+  },
+  "required": [
+    "action",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > observation_history contract 1`] = `
+{
+  "description": "Manage opt-in local observation history: status, configure, read, clear. Recording defaults off and only covers observations already enabled in MIE. configure requires enabled; disabling keeps saved records. read accepts optional tabId, captureId, kind, beforeId and limit (default 100), newest first with nextCursor; expired cursors fail. clear removes this history only. History survives extension restart. No headers or bodies are saved; known credentials and URL query/userinfo/fragment are removed, other sensitive text may remain.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "action": {
+        "enum": [
+          "status",
+          "configure",
+          "read",
+          "clear",
+        ],
+        "type": "string",
+      },
+      "beforeId": {
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+        "type": "string",
+      },
+      "captureId": {
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+        "type": "string",
+      },
+      "enabled": {
+        "type": "boolean",
+      },
+      "kind": {
+        "enum": [
+          "console",
+          "network",
+        ],
+        "type": "string",
+      },
+      "limit": {
+        "maximum": 200,
+        "minimum": 1,
+        "type": "integer",
+      },
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+      "tabId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+    },
+    "required": [
+      "action",
+    ],
+    "type": "object",
+  },
+  "name": "observation_history",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > profiles_launch 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+    "timeoutMs": {
+      "default": 10000,
+      "maximum": 60000,
+      "minimum": 1,
+      "type": "integer",
+    },
+  },
+  "required": [
+    "profile",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > profiles_launch contract 1`] = `
+{
+  "description": "Start an offline Chrome profile using an explicit local launch mapping configured by MIE_PROFILE_LAUNCH_CONFIG. profile is required; MIE names are not Chrome profile directory names. Wait for a verified online identity, up to timeoutMs (default 10000, maximum 60000). Already-online profiles return without launching. Does not replay previous operations. Timeout does not stop the browser; check profiles_list before retrying.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+      "timeoutMs": {
+        "default": 10000,
+        "maximum": 60000,
+        "minimum": 1,
+        "type": "integer",
+      },
+    },
+    "required": [
+      "profile",
+    ],
+    "type": "object",
+  },
+  "name": "profiles_launch",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > profiles_list 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {},
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > profiles_list contract 1`] = `
+{
+  "description": "List online named Chrome profiles. serverVersion identifies this running MCP process product version, not the extension or bridge version. Browser tools accept an optional profile name; omission always selects default, with no fallback. Tab IDs and element references belong only to their originating profile.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {},
+    "type": "object",
+  },
+  "name": "profiles_list",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > read_console_messages 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "clear": {
+      "default": false,
+      "type": "boolean",
+    },
+    "excludeExtensions": {
+      "type": "boolean",
+    },
+    "includeSubSessions": {
+      "default": false,
+      "type": "boolean",
+    },
+    "limit": {
+      "default": 100,
+      "maximum": 200,
+      "minimum": 1,
+      "type": "integer",
+    },
+    "onlyErrors": {
+      "default": false,
+      "type": "boolean",
+    },
+    "pattern": {
+      "maxLength": 200,
+      "minLength": 1,
+      "type": "string",
+    },
+    "patternMode": {
+      "enum": [
+        "substring",
+        "regex",
+      ],
+      "type": "string",
+    },
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+    "tabId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+  },
+  "required": [
+    "tabId",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > read_console_messages contract 1`] = `
+{
+  "description": "Read console calls and uncaught errors for the tab. The first call starts capture, so call it before triggering the action. pattern is a case-insensitive substring on level or text; patternMode=regex uses RE2 (inline flags allowed, no lookaround/backreferences, at most 128 compiled instructions). excludeExtensions=true hides chrome-extension:// sources. includeSubSessions=true adds iframe and worker sessions; their entries carry source, and subSessions reports readiness. Returns the latest limit entries (1..200, default 100), oldest first; the capture buffer keeps up to 500 across navigation until detach, close or restart. clear empties all entries after reading, not opt-in history (use observation_history).",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "clear": {
+        "default": false,
+        "type": "boolean",
+      },
+      "excludeExtensions": {
+        "type": "boolean",
+      },
+      "includeSubSessions": {
+        "default": false,
+        "type": "boolean",
+      },
+      "limit": {
+        "default": 100,
+        "maximum": 200,
+        "minimum": 1,
+        "type": "integer",
+      },
+      "onlyErrors": {
+        "default": false,
+        "type": "boolean",
+      },
+      "pattern": {
+        "maxLength": 200,
+        "minLength": 1,
+        "type": "string",
+      },
+      "patternMode": {
+        "enum": [
+          "substring",
+          "regex",
+        ],
+        "type": "string",
+      },
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+      "tabId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+    },
+    "required": [
+      "tabId",
+    ],
+    "type": "object",
+  },
+  "name": "read_console_messages",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > read_network_request 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "includeBody": {
+      "default": true,
+      "type": "boolean",
+    },
+    "includeHeaders": {
+      "default": true,
+      "type": "boolean",
+    },
+    "includeRequestBody": {
+      "default": false,
+      "type": "boolean",
+    },
+    "maxChars": {
+      "default": 20000,
+      "maximum": 50000,
+      "minimum": 1,
+      "type": "integer",
+    },
+    "prefixBytes": {
+      "maximum": 256,
+      "minimum": 0,
+      "type": "integer",
+    },
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+    "requestBodyFormat": {
+      "enum": [
+        "text",
+        "base64",
+        "multipart",
+      ],
+      "type": "string",
+    },
+    "requestId": {
+      "maxLength": 1024,
+      "minLength": 1,
+      "type": "string",
+    },
+    "responseBodyFormat": {
+      "enum": [
+        "text",
+        "binary",
+      ],
+      "type": "string",
+    },
+    "sessionId": {
+      "maxLength": 1024,
+      "minLength": 1,
+      "type": "string",
+    },
+    "tabId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+  },
+  "required": [
+    "tabId",
+    "requestId",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > read_network_request contract 1`] = `
+{
+  "description": "Read one captured request's latest redirect hop by tabId and requestId. request.status is the CDP response status; responseHeaders.statusCode when source=extra-info is the network status (cached revalidation may show 200 vs 304). Extra-info may be pending or unavailable. (capture starts with read_network_requests). sessionId defaults to the main session; pass a child entry's source.sessionId for its details. Returns bounded headers with known authentication fields redacted; not a byte-for-byte wire capture. includeHeaders=false omits both header maps. includeBody defaults to true and reads a finished text/JSON response up to maxChars; responseBodyFormat=binary returns byteLength, sha256 and prefixBytes hex (0..256, default 0), max 1 MiB. includeRequestBody=true reads the request body; requestBodyFormat is text (default; text/JSON/form-urlencoded), base64 (non-text bytes, not redacted, completeness unknown) or multipart (fields with known credentials redacted, file content omitted, always partial). Total output is limited to 50000 characters. Bodies are read on demand, never cached, and may be evicted by Chrome. includeHeaders=false does not disable body reading. Use includeBody=false for metadata of failed, pending or redirected requests, or unavailable bodies. Unreadable bodies return with body/requestBody.state=unavailable and reason=not_finished, expired or too_large; metadata and independently readable bodies remain available. Check each body state before using it. Invalid formats, malformed data, unknown CDP failures and stale observations still fail the whole call. Text/request raw CDP strings are limited to 1048576 UTF-16 code units before decoding/truncation; lowering maxChars does not bypass this limit. Use includeRequestBody=false to omit request-body reading. requestBody.state=absent requires an explicit native hasPostData=false; a missing signal is not proof of no body. With missing presence/MIME metadata, text mode probes Chrome; no post data returns unavailable/expired and may mean no body or data no longer retained. Request URLs and header URLs (including relative Location) mask known authentication query values, including _vercel_jwt/_vercel_jwe, before caching/truncation. Redaction covers known credentials only; other sensitive body data may remain.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "includeBody": {
+        "default": true,
+        "type": "boolean",
+      },
+      "includeHeaders": {
+        "default": true,
+        "type": "boolean",
+      },
+      "includeRequestBody": {
+        "default": false,
+        "type": "boolean",
+      },
+      "maxChars": {
+        "default": 20000,
+        "maximum": 50000,
+        "minimum": 1,
+        "type": "integer",
+      },
+      "prefixBytes": {
+        "maximum": 256,
+        "minimum": 0,
+        "type": "integer",
+      },
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+      "requestBodyFormat": {
+        "enum": [
+          "text",
+          "base64",
+          "multipart",
+        ],
+        "type": "string",
+      },
+      "requestId": {
+        "maxLength": 1024,
+        "minLength": 1,
+        "type": "string",
+      },
+      "responseBodyFormat": {
+        "enum": [
+          "text",
+          "binary",
+        ],
+        "type": "string",
+      },
+      "sessionId": {
+        "maxLength": 1024,
+        "minLength": 1,
+        "type": "string",
+      },
+      "tabId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+    },
+    "required": [
+      "tabId",
+      "requestId",
+    ],
+    "type": "object",
+  },
+  "name": "read_network_request",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > read_network_requests 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "clear": {
+      "default": false,
+      "type": "boolean",
+    },
+    "excludeDataUrls": {
+      "type": "boolean",
+    },
+    "excludeExtensions": {
+      "type": "boolean",
+    },
+    "includeSubSessions": {
+      "default": false,
+      "type": "boolean",
+    },
+    "limit": {
+      "default": 100,
+      "maximum": 200,
+      "minimum": 1,
+      "type": "integer",
+    },
+    "patternMode": {
+      "enum": [
+        "substring",
+        "regex",
+      ],
+      "type": "string",
+    },
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+    "states": {
+      "items": {
+        "enum": [
+          "pending",
+          "redirected",
+          "finished",
+          "failed",
+        ],
+        "type": "string",
+      },
+      "maxItems": 4,
+      "minItems": 1,
+      "type": "array",
+    },
+    "tabId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+    "urlPattern": {
+      "maxLength": 200,
+      "minLength": 1,
+      "type": "string",
+    },
+  },
+  "required": [
+    "tabId",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > read_network_requests contract 1`] = `
+{
+  "description": "Known authentication query values, including _vercel_jwt/_vercel_jwe, are masked before URL caching/truncation; ordinary query values remain. Read request summaries for the tab. The first call starts capture, so call it before triggering the action; an empty result only covers captured traffic. urlPattern is a case-sensitive URL substring; patternMode=regex uses RE2 (inline flags allowed, no lookaround/backreferences, at most 128 compiled instructions). states selects any of pending/redirected/finished/failed. excludeExtensions/excludeDataUrls hide chrome-extension:// and data: URLs. Filters combine with AND before limit. includeSubSessions=true adds iframe and worker sessions; their entries carry source, and subSessions reports readiness. Returns the latest limit entries (1..200, default 100), oldest first; the capture buffer keeps up to 500 across navigation until detach, close or restart. status is the CDP response status; a revalidated cached response may show 200 while read_network_request responseHeaders.statusCode from extra-info shows 304. Extra-info may be pending or unavailable. receivedAt is when the request started (epoch ms); durationMs runs from it to finish or failure. clear empties all entries after reading, not opt-in history (use observation_history). Use read_network_request for headers and bodies.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "clear": {
+        "default": false,
+        "type": "boolean",
+      },
+      "excludeDataUrls": {
+        "type": "boolean",
+      },
+      "excludeExtensions": {
+        "type": "boolean",
+      },
+      "includeSubSessions": {
+        "default": false,
+        "type": "boolean",
+      },
+      "limit": {
+        "default": 100,
+        "maximum": 200,
+        "minimum": 1,
+        "type": "integer",
+      },
+      "patternMode": {
+        "enum": [
+          "substring",
+          "regex",
+        ],
+        "type": "string",
+      },
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+      "states": {
+        "items": {
+          "enum": [
+            "pending",
+            "redirected",
+            "finished",
+            "failed",
+          ],
+          "type": "string",
+        },
+        "maxItems": 4,
+        "minItems": 1,
+        "type": "array",
+      },
+      "tabId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+      "urlPattern": {
+        "maxLength": 200,
+        "minLength": 1,
+        "type": "string",
+      },
+    },
+    "required": [
+      "tabId",
+    ],
+    "type": "object",
+  },
+  "name": "read_network_requests",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > read_page 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "frameId": {
+      "maxLength": 256,
+      "minLength": 1,
+      "type": "string",
+    },
+    "maxChars": {
+      "default": 50000,
+      "maximum": 200000,
+      "minimum": 1000,
+      "type": "integer",
+    },
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+    "tabId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+  },
+  "required": [
+    "tabId",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > read_page contract 1`] = `
+{
+  "description": "Read a text representation of the accessibility tree. Optional frameId selects a current frame, including OOPIF, from get_page_text includeFrames. Scoped refs are opaque issued numbers, not native CDP node ids; use the same frameId with returned refs.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "frameId": {
+        "maxLength": 256,
+        "minLength": 1,
+        "type": "string",
+      },
+      "maxChars": {
+        "default": 50000,
+        "maximum": 200000,
+        "minimum": 1000,
+        "type": "integer",
+      },
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+      "tabId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+    },
+    "required": [
+      "tabId",
+    ],
+    "type": "object",
+  },
+  "name": "read_page",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > request 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "allowWrite": {
+      "default": false,
+      "type": "boolean",
+    },
+    "body": {
+      "maxLength": 65536,
+      "type": "string",
+    },
+    "contentType": {
+      "enum": [
+        "application/json",
+        "application/x-www-form-urlencoded",
+        "text/plain",
+      ],
+      "type": "string",
+    },
+    "expectedOrigin": {
+      "format": "uri",
+      "type": "string",
+    },
+    "maxBytes": {
+      "default": 20000,
+      "maximum": 67108864,
+      "minimum": 1,
+      "type": "integer",
+    },
+    "method": {
+      "default": "GET",
+      "enum": [
+        "GET",
+        "HEAD",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE",
+      ],
+      "type": "string",
+    },
+    "prefixBytes": {
+      "maximum": 256,
+      "minimum": 0,
+      "type": "integer",
+    },
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+    "responseBodyFormat": {
+      "enum": [
+        "text",
+        "binary",
+        "hashOnly",
+      ],
+      "type": "string",
+    },
+    "tabId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+    "timeoutMs": {
+      "default": 10000,
+      "maximum": 15000,
+      "minimum": 1,
+      "type": "integer",
+    },
+    "url": {
+      "maxLength": 8192,
+      "minLength": 1,
+      "type": "string",
+    },
+  },
+  "required": [
+    "tabId",
+    "expectedOrigin",
+    "url",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > request contract 1`] = `
+{
+  "description": "Bounded same-origin HTTP request in the managed tab's login session. expectedOrigin is required and checked against the live document. GET/HEAD read; POST/PUT/PATCH/DELETE require allowWrite=true. No custom headers; body requires contentType. Never follows redirects (code=REDIRECT_NOT_FOLLOWED, status/location null when the browser hides them) and never retries. Returns status, allowlisted headers and bounded text with known credentials redacted; other secrets may remain. responseBodyFormat=binary returns bytesRead, sha256 (null when truncated) and an unredacted prefixHex (prefixBytes default 0, max 256) instead of text; maxBytes caps at 50000. responseBodyFormat=hashOnly hashes to EOF without returning the body (maxBytes default 20000, max 67108864) and returns bytesRead/complete/sha256/termination (eof|byte-limit|timeout|read-error); sha256 is null unless complete. timeoutMs max 15000. A 206 digest covers only that range.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "allowWrite": {
+        "default": false,
+        "type": "boolean",
+      },
+      "body": {
+        "maxLength": 65536,
+        "type": "string",
+      },
+      "contentType": {
+        "enum": [
+          "application/json",
+          "application/x-www-form-urlencoded",
+          "text/plain",
+        ],
+        "type": "string",
+      },
+      "expectedOrigin": {
+        "format": "uri",
+        "type": "string",
+      },
+      "maxBytes": {
+        "default": 20000,
+        "maximum": 67108864,
+        "minimum": 1,
+        "type": "integer",
+      },
+      "method": {
+        "default": "GET",
+        "enum": [
+          "GET",
+          "HEAD",
+          "POST",
+          "PUT",
+          "PATCH",
+          "DELETE",
+        ],
+        "type": "string",
+      },
+      "prefixBytes": {
+        "maximum": 256,
+        "minimum": 0,
+        "type": "integer",
+      },
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+      "responseBodyFormat": {
+        "enum": [
+          "text",
+          "binary",
+          "hashOnly",
+        ],
+        "type": "string",
+      },
+      "tabId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+      "timeoutMs": {
+        "default": 10000,
+        "maximum": 15000,
+        "minimum": 1,
+        "type": "integer",
+      },
+      "url": {
+        "maxLength": 8192,
+        "minLength": 1,
+        "type": "string",
+      },
+    },
+    "required": [
+      "tabId",
+      "expectedOrigin",
+      "url",
+    ],
+    "type": "object",
+  },
+  "name": "request",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > screenshot_diagnostics 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "default": "read",
+      "enum": [
+        "read",
+        "clear",
+      ],
+      "type": "string",
+    },
+    "diagnosticId": {
+      "format": "uuid",
+      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+      "type": "string",
+    },
+    "limit": {
+      "maximum": 150,
+      "minimum": 1,
+      "type": "integer",
+    },
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+    "tabId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+  },
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > screenshot_diagnostics contract 1`] = `
+{
+  "description": "Read local screenshot diagnostic metadata, newest first, or clear this profile's records. action defaults to read; diagnosticId/tabId filters and limit (default 20, max 150) apply to read. Takes no screenshot and does not attach or activate tabs; closed tabs can be queried. Records are kept 7 days, capped at 50 successes, 50 failures and 50 unfinished calls. Caller and CDP outcomes are recorded separately; a timeout does not cancel Chrome. No pixels, URLs, titles or page content. Check storage status; unwritten history is not guaranteed.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "action": {
+        "default": "read",
+        "enum": [
+          "read",
+          "clear",
+        ],
+        "type": "string",
+      },
+      "diagnosticId": {
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+        "type": "string",
+      },
+      "limit": {
+        "maximum": 150,
+        "minimum": 1,
+        "type": "integer",
+      },
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+      "tabId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+    },
+    "type": "object",
+  },
+  "name": "screenshot_diagnostics",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > set_input_files 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "backendNodeId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+    "files": {
+      "items": {
+        "maxLength": 4096,
+        "minLength": 1,
+        "pattern": "^(?:\\/|[a-zA-Z]:[\\\\/]|\\\\\\\\)",
+        "type": "string",
+      },
+      "maxItems": 10,
+      "type": "array",
+    },
+    "frameId": {
+      "maxLength": 256,
+      "minLength": 1,
+      "type": "string",
+    },
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+    "tabId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+  },
+  "required": [
+    "tabId",
+    "backendNodeId",
+    "files",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > set_input_files contract 1`] = `
+{
+  "description": "Select local files on input[type=file] by node ref. files is required: 0..10 absolute paths of readable regular files; [] clears. Rejects disabled or directory controls and multiple files on a single-file input. Returns files, cleared, verification=current-state|trusted-event and inputState=retained|cleared|removed|changed. It does not submit the form, retry, or confirm upload completion. FILE_SELECTION_UNCONFIRMED means the page may already have processed the files; inspect before retrying. With frameId, backendNodeId must be a ref issued for that frame.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "backendNodeId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+      "files": {
+        "items": {
+          "maxLength": 4096,
+          "minLength": 1,
+          "pattern": "^(?:\\/|[a-zA-Z]:[\\\\/]|\\\\\\\\)",
+          "type": "string",
+        },
+        "maxItems": 10,
+        "type": "array",
+      },
+      "frameId": {
+        "maxLength": 256,
+        "minLength": 1,
+        "type": "string",
+      },
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+      "tabId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+    },
+    "required": [
+      "tabId",
+      "backendNodeId",
+      "files",
+    ],
+    "type": "object",
+  },
+  "name": "set_input_files",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > set_password_from_file 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "backendNodeId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+    "expectedOrigin": {
+      "maxLength": 2048,
+      "type": "string",
+    },
+    "expectedPathname": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "type": "string",
+    },
+    "filePath": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "pattern": "^\\/.*",
+      "type": "string",
+    },
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+    "tabId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+  },
+  "required": [
+    "filePath",
+    "expectedOrigin",
+    "expectedPathname",
+    "tabId",
+    "backendNodeId",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > set_password_from_file contract 1`] = `
+{
+  "description": "Set a top-level input[type=password] from an explicitly granted local file. Never supply the password as a tool argument. Configure grants locally in ~/.config/mie/password-grants.json (version=1, grants array); no MCP tool creates grants. Each grant binds exact filePath, expectedOrigin, expectedPathname and profile; an omitted grant profile permits only default. Both grant and password files must be current-user 0600 regular files at canonical absolute paths. Parent directories must be owned by the current user or root; group/other writable parents require the sticky bit. The password file is at most 4096 UTF-8 bytes, without trimming. Rejects symlinks, empty files and NUL. Checks the live document, origin, pathname and password input atomically. Returns only ok and backendNodeId, with fixed safe errors. Does not submit or retry. Input/change handlers still run; page scripts and later observations are outside the no-echo guarantee. No iframe support.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "backendNodeId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+      "expectedOrigin": {
+        "maxLength": 2048,
+        "type": "string",
+      },
+      "expectedPathname": {
+        "maxLength": 4096,
+        "minLength": 1,
+        "type": "string",
+      },
+      "filePath": {
+        "maxLength": 4096,
+        "minLength": 1,
+        "pattern": "^\\/.*",
+        "type": "string",
+      },
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+      "tabId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+    },
+    "required": [
+      "filePath",
+      "expectedOrigin",
+      "expectedPathname",
+      "tabId",
+      "backendNodeId",
+    ],
+    "type": "object",
+  },
+  "name": "set_password_from_file",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > set_viewport 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "colorScheme": {
+      "enum": [
+        "light",
+        "dark",
+        "no-preference",
+      ],
+      "type": "string",
+    },
+    "deviceScaleFactor": {
+      "maximum": 4,
+      "minimum": 0.5,
+      "type": "number",
+    },
+    "height": {
+      "maximum": 4320,
+      "minimum": 1,
+      "type": "integer",
+    },
+    "mobile": {
+      "type": "boolean",
+    },
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+    "reset": {
+      "type": "boolean",
+    },
+    "tabId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+    "width": {
+      "maximum": 7680,
+      "minimum": 1,
+      "type": "integer",
+    },
+  },
+  "required": [
+    "tabId",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > set_viewport contract 1`] = `
+{
+  "description": "Set tab-only width/height with optional deviceScaleFactor/mobile/colorScheme. colorScheme alone is allowed; reset=true clears metrics, media and touch emulation. Returns actual CSS viewport and DPR. mobile=true also enables touch emulation (pointer: coarse, hover: none, maxTouchPoints=5); mobile=false or omitted with width/height disables it. computer clicks stay mouse events. Does not resize the browser window or other tabs.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "colorScheme": {
+        "enum": [
+          "light",
+          "dark",
+          "no-preference",
+        ],
+        "type": "string",
+      },
+      "deviceScaleFactor": {
+        "maximum": 4,
+        "minimum": 0.5,
+        "type": "number",
+      },
+      "height": {
+        "maximum": 4320,
+        "minimum": 1,
+        "type": "integer",
+      },
+      "mobile": {
+        "type": "boolean",
+      },
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+      "reset": {
+        "type": "boolean",
+      },
+      "tabId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+      "width": {
+        "maximum": 7680,
+        "minimum": 1,
+        "type": "integer",
+      },
+    },
+    "required": [
+      "tabId",
+    ],
+    "type": "object",
+  },
+  "name": "set_viewport",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > tabs_close 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "mineOnly": {
+      "type": "boolean",
+    },
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+    "tabIds": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+      "minItems": 1,
+      "type": "array",
+    },
+  },
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > tabs_close contract 1`] = `
+{
+  "description": "Close explicit tabIds, or mineOnly=true for tabs owned by this MCP process (tabIds then restrict further). Tabs not found in this profile are listed in missingTabIds while the rest close; TAB_GONE only when none exist here (they may belong to another profile). Keeps the profile's last window open. A lost response does not confirm closure; verify before retrying.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "mineOnly": {
+        "type": "boolean",
+      },
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+      "tabIds": {
+        "items": {
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991,
+          "type": "integer",
+        },
+        "minItems": 1,
+        "type": "array",
+      },
+    },
+    "type": "object",
+  },
+  "name": "tabs_close",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > tabs_context 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "includeClosed": {
+      "type": "boolean",
+    },
+    "mineOnly": {
+      "type": "boolean",
+    },
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+  },
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > tabs_context contract 1`] = `
+{
+  "description": "List managed tabs: id, URL, title, active, ownerSessionId and ownerKind (mcp, relay or null). relayOwnerId is the live relay connection id; relay tabs with another id were left by an ended connection. extensionVersion is the extension loaded in this profile; use it to confirm a reload. mineOnly filters to this MCP process. includeClosed=true adds closedTabs (latest 100, 24h): result is the MIE close attempt, closedAt the actual Chrome event; external closes have null result/closer; no URLs. With includeClosed=true and mineOnly=false, lifecycleDiagnostics adds the latest 50 local metadata events, storage status and retention (200 records, 7 days). No URLs/titles/content; failed native tab-strip close clicks are not observable.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "includeClosed": {
+        "type": "boolean",
+      },
+      "mineOnly": {
+        "type": "boolean",
+      },
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+    },
+    "type": "object",
+  },
+  "name": "tabs_context",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > tabs_create 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "captureConsole": {
+      "type": "boolean",
+    },
+    "captureNetwork": {
+      "type": "boolean",
+    },
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+    "url": {
+      "format": "uri",
+      "type": "string",
+    },
+  },
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > tabs_create contract 1`] = `
+{
+  "description": "Create a background tab and return tabId/ownerSessionId. Without capture flags, it does not wait for navigation or load. With captureNetwork/captureConsole and a URL, it enables capture BEFORE navigation and waits for load. Load does not imply application readiness; wait_for the expected element or state before interacting. MCP injects owner session.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "captureConsole": {
+        "type": "boolean",
+      },
+      "captureNetwork": {
+        "type": "boolean",
+      },
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+      "url": {
+        "format": "uri",
+        "type": "string",
+      },
+    },
+    "type": "object",
+  },
+  "name": "tabs_create",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > wait_for 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "backendNodeId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+    "exact": {
+      "type": "boolean",
+    },
+    "excludeResourceTypes": {
+      "items": {
+        "enum": [
+          "Document",
+          "Stylesheet",
+          "Image",
+          "Media",
+          "Font",
+          "Script",
+          "TextTrack",
+          "XHR",
+          "Fetch",
+          "Prefetch",
+          "EventSource",
+          "WebSocket",
+          "Manifest",
+          "SignedExchange",
+          "Ping",
+          "CSPViolationReport",
+          "Preflight",
+          "Other",
+        ],
+        "type": "string",
+      },
+      "maxItems": 20,
+      "type": "array",
+    },
+    "excludeUrlPatterns": {
+      "items": {
+        "maxLength": 1000,
+        "minLength": 1,
+        "type": "string",
+      },
+      "maxItems": 20,
+      "type": "array",
+    },
+    "expected": {
+      "maxLength": 4000,
+      "type": "string",
+    },
+    "frameId": {
+      "maxLength": 256,
+      "minLength": 1,
+      "type": "string",
+    },
+    "idleMs": {
+      "maximum": 5000,
+      "minimum": 100,
+      "type": "integer",
+    },
+    "match": {
+      "enum": [
+        "equals",
+        "contains",
+      ],
+      "type": "string",
+    },
+    "name": {
+      "maxLength": 200,
+      "minLength": 1,
+      "type": "string",
+    },
+    "profile": {
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "type": "string",
+    },
+    "query": {
+      "maxLength": 200,
+      "minLength": 1,
+      "type": "string",
+    },
+    "role": {
+      "maxLength": 100,
+      "minLength": 1,
+      "type": "string",
+    },
+    "selector": {
+      "maxLength": 1000,
+      "minLength": 1,
+      "type": "string",
+    },
+    "state": {
+      "enum": [
+        "attached",
+        "detached",
+        "visible",
+        "hidden",
+        "enabled",
+        "disabled",
+        "text",
+        "value",
+        "url",
+        "network_idle",
+      ],
+      "type": "string",
+    },
+    "tabId": {
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991,
+      "type": "integer",
+    },
+    "timeoutMs": {
+      "maximum": 300000,
+      "minimum": 0,
+      "type": "integer",
+    },
+  },
+  "required": [
+    "tabId",
+    "state",
+    "timeoutMs",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`shared tool definitions > matches the derived JSON Schema contract snapshots > wait_for contract 1`] = `
+{
+  "description": "Wait for attached/detached/visible/hidden/enabled/disabled/text/value/url/network_idle. Element target: backendNodeId, CSS selector, or query/role/name/exact (first match, re-queried). url and network_idle take no target or frameId. text/value/url require expected; match defaults to equals (or contains). timeoutMs is required, 0..300000; polling slows after 20s. Returns matched/timedOut/elapsedMs/actual. text compares textContent (CSS text-transform not applied); for text/value, actual omits layout and a match keeps only the text near it. hidden means absent or without visible layout, not offscreen. network_idle counts only requests observed since capture began (use captureNetwork before navigation); idleMs defaults to 500. excludeResourceTypes (CDP types) and excludeUrlPatterns (case-sensitive URL substrings, not glob/regex) skip matching requests, at most 20 each. On timeout actual lists pendingRequests (oldest 10) and pendingRequestsOmitted. Sensitive content comparisons are rejected. Does not imply navigation success.",
+  "inputSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+      "backendNodeId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+      "exact": {
+        "type": "boolean",
+      },
+      "excludeResourceTypes": {
+        "items": {
+          "enum": [
+            "Document",
+            "Stylesheet",
+            "Image",
+            "Media",
+            "Font",
+            "Script",
+            "TextTrack",
+            "XHR",
+            "Fetch",
+            "Prefetch",
+            "EventSource",
+            "WebSocket",
+            "Manifest",
+            "SignedExchange",
+            "Ping",
+            "CSPViolationReport",
+            "Preflight",
+            "Other",
+          ],
+          "type": "string",
+        },
+        "maxItems": 20,
+        "type": "array",
+      },
+      "excludeUrlPatterns": {
+        "items": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "type": "string",
+        },
+        "maxItems": 20,
+        "type": "array",
+      },
+      "expected": {
+        "maxLength": 4000,
+        "type": "string",
+      },
+      "frameId": {
+        "maxLength": 256,
+        "minLength": 1,
+        "type": "string",
+      },
+      "idleMs": {
+        "maximum": 5000,
+        "minimum": 100,
+        "type": "integer",
+      },
+      "match": {
+        "enum": [
+          "equals",
+          "contains",
+        ],
+        "type": "string",
+      },
+      "name": {
+        "maxLength": 200,
+        "minLength": 1,
+        "type": "string",
+      },
+      "profile": {
+        "maxLength": 48,
+        "minLength": 1,
+        "pattern": "^[a-z0-9][a-z0-9_-]*$",
+        "type": "string",
+      },
+      "query": {
+        "maxLength": 200,
+        "minLength": 1,
+        "type": "string",
+      },
+      "role": {
+        "maxLength": 100,
+        "minLength": 1,
+        "type": "string",
+      },
+      "selector": {
+        "maxLength": 1000,
+        "minLength": 1,
+        "type": "string",
+      },
+      "state": {
+        "enum": [
+          "attached",
+          "detached",
+          "visible",
+          "hidden",
+          "enabled",
+          "disabled",
+          "text",
+          "value",
+          "url",
+          "network_idle",
+        ],
+        "type": "string",
+      },
+      "tabId": {
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer",
+      },
+      "timeoutMs": {
+        "maximum": 300000,
+        "minimum": 0,
+        "type": "integer",
+      },
+    },
+    "required": [
+      "tabId",
+      "state",
+      "timeoutMs",
+    ],
+    "type": "object",
+  },
+  "name": "wait_for",
+}
+`;

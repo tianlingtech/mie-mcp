@@ -1,0 +1,32 @@
+{
+  "name": "mie-mcp",
+  "version": "0.15.0",
+  "private": true,
+  "type": "module",
+  "description": "MCP server for the mie browser automation bridge.",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "mie-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "clean": "node scripts/clean.mjs",
+    "prebuild": "npm run clean",
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "pretest": "npm run build",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@mie/tool-defs": "file:../mie/packages/tool-defs",
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@types/node": "26.4.0",
+    "typescript": "7.0.2",
+    "vitest": "4.1.11"
+  },
+  "//": "Keep the Zod major aligned with the mie repository tool-defs package."
+}

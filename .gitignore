@@ -1,0 +1,17 @@
+# local agent / skillsmgr deployment artifacts
+.agents/
+.claude/
+skillsmgr-deploy.json
+
+# local MCP config
+.mcp.json
+
+# build artifacts
+node_modules/
+dist/
+
+# e2e test evidence (local run artifacts)
+.e2e-test/
+
+.env
+.env.*
