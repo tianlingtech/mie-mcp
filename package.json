@@ -1,5 +1,5 @@
 {
-  "name": "mie-mcp",
+  "name": "@tianlingtech/mie-mcp",
   "version": "0.15.0",
   "license": "MIT",
   "private": true,
@@ -17,15 +17,18 @@
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json",
     "pretest": "npm run build",
-    "test": "vitest run"
+    "test": "vitest run",
+    "pack:release": "node scripts/pack-release.mjs"
   },
   "dependencies": {
-    "@mie/tool-defs": "file:../mie/packages/tool-defs",
     "@modelcontextprotocol/sdk": "1.30.0",
+    "re2js": "2.8.6",
     "zod": "4.5.4"
   },
   "devDependencies": {
+    "@mie/tool-defs": "file:../mie/packages/tool-defs",
     "@types/node": "26.4.0",
+    "rolldown": "1.2.6",
     "typescript": "7.0.2",
     "vitest": "4.1.11"
   },

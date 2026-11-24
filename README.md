@@ -2,9 +2,19 @@
 
 `mie-mcp` 让支持 MCP 的客户端操作本机 Chrome 中的标签页.  客户端通过 stdio 启动服务, 服务通过 Unix socket 连接本机 MIE bridge, 浏览器扩展在选定的 Chrome profile 中执行操作.  可以用它打开页面, 查找并操作元素, 截图, 或查看控制台和网络请求.
 
+## 一行安装
+
+准备 Node.js 20 或以上和 npm.  当仓库默认分支包含 `mcpsmgr.json`, 且所用 npm registry 提供 `@tianlingtech/mie-mcp@0.15.0` 时, 在目标项目目录执行以下命令, 按提示选择客户端:
+
+```sh
+npx -y mcpsmgr add tianlingtech/mie-mcp
+```
+
+清单支持 Claude Code, Codex, Cursor, Gemini CLI, OpenCode, Antigravity, OpenClaw, Hermes Agent 和 Kimi Code.  客户端通过 `npx -y @tianlingtech/mie-mcp@0.15.0` 启动名为 `mie` 的 stdio 服务.  操作 Chrome 还需要本机 MIE bridge 和已启用的 MIE 扩展.
+
 ## 从源码构建
 
-准备 Node.js 和 npm.  项目要求 Node.js 20 或以上, 本次构建验证使用 Node.js 25.1.0.  构建还需要 MIE 工作区中的共享包 `@mie/tool-defs`.  当前锁文件对应版本为 `0.31.0`.  该包提供运行时代码和 TypeScript 类型, 需要先用 MIE 工作区指定的 pnpm 10.21.0构建.  两个项目按以下结构放置:
+准备 Node.js 和 npm.  项目要求 Node.js 20 或以上, 本次构建验证使用 Node.js 25.1.0.  构建还需要 MIE 工作区中的共享包 `@mie/tool-defs`.  当前锁文件对应版本为 `0.31.0`.  该包提供运行时代码和 TypeScript 类型, 需要先用 MIE 工作区指定的 pnpm 10.21.0 构建.  两个项目按以下结构放置:
 
 ```text
 workspace/

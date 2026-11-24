@@ -1,0 +1,144 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "mie-mcp",
+  "compatibility": {
+    "npmPackage": "@tianlingtech/mie-mcp@0.15.0"
+  },
+  "agents": {
+    "claude-code": {
+      "servers": [
+        {
+          "name": "mie",
+          "config": {
+            "transport": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@tianlingtech/mie-mcp@0.15.0"
+            ]
+          }
+        }
+      ]
+    },
+    "codex": {
+      "servers": [
+        {
+          "name": "mie",
+          "config": {
+            "transport": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@tianlingtech/mie-mcp@0.15.0"
+            ]
+          }
+        }
+      ]
+    },
+    "cursor": {
+      "servers": [
+        {
+          "name": "mie",
+          "config": {
+            "transport": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@tianlingtech/mie-mcp@0.15.0"
+            ]
+          }
+        }
+      ]
+    },
+    "gemini-cli": {
+      "servers": [
+        {
+          "name": "mie",
+          "config": {
+            "transport": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@tianlingtech/mie-mcp@0.15.0"
+            ]
+          }
+        }
+      ]
+    },
+    "opencode": {
+      "servers": [
+        {
+          "name": "mie",
+          "config": {
+            "transport": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@tianlingtech/mie-mcp@0.15.0"
+            ]
+          }
+        }
+      ]
+    },
+    "antigravity": {
+      "servers": [
+        {
+          "name": "mie",
+          "config": {
+            "transport": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@tianlingtech/mie-mcp@0.15.0"
+            ]
+          }
+        }
+      ]
+    },
+    "openclaw": {
+      "servers": [
+        {
+          "name": "mie",
+          "config": {
+            "transport": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@tianlingtech/mie-mcp@0.15.0"
+            ]
+          }
+        }
+      ]
+    },
+    "hermes-agent": {
+      "servers": [
+        {
+          "name": "mie",
+          "config": {
+            "transport": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@tianlingtech/mie-mcp@0.15.0"
+            ]
+          }
+        }
+      ]
+    },
+    "kimi-code": {
+      "servers": [
+        {
+          "name": "mie",
+          "config": {
+            "transport": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@tianlingtech/mie-mcp@0.15.0"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -66,6 +66,7 @@ describe("MCP stdio server", () => {
       "request",
       "profiles_launch",
       "screenshot_diagnostics",
+      "graphics_diagnostics",
       "cookies_list",
     ]);
 
@@ -93,7 +94,7 @@ describe("MCP stdio server", () => {
     const { client } = harness;
 
     const listed = await client.listTools();
-    expect(listed.tools).toHaveLength(25);
+    expect(listed.tools).toHaveLength(26);
 
     const result = await client.callTool({
       name: "tabs_context",
